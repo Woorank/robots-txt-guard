@@ -1,8 +1,8 @@
 # robots-txt-guard
 
-Validate urls against robots.txt rules. Configure with output from [robots-tct-parse](https://github.com/Woorank/robots-txt-parse/)
+Validate urls against robots.txt rules. Configure with output from [robots-txt-parse](https://github.com/Woorank/robots-txt-parse/)
 
-# Usage
+## Usage
 
 ```js
 var guard = require('robots-txt-guard');
