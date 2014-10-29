@@ -80,5 +80,22 @@ describe('guard', function () {
     assert.ok(robotsTxt.isAllowed('agent2', '/disallow3'), '12');
 
   });
+
+  it('should pick most specific agent', function () {
+
+    // both groups should behave the same, regardless of the order of the rules
+    var robotsTxt = guard({
+      groups: [{
+        agents: [ '*' ],
+        rules: [
+          { rule: 'disallow', path: '' }
+        ]
+      }]
+    });
+
+    assert.ok(robotsTxt.isAllowed('agent', '/'), '1');
+    assert.ok(robotsTxt.isAllowed('agent', '/path'), '2');
+
+  });
   
 });
