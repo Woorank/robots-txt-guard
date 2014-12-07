@@ -1,4 +1,4 @@
-# robots-txt-guard
+# robots-txt-guard [![Build Status](https://travis-ci.org/Woorank/robots-txt-guard.svg)](https://travis-ci.org/Woorank/robots-txt-guard)
 
 Validate urls against robots.txt rules. Configure with output from [robots-txt-parse](https://github.com/Woorank/robots-txt-parse/)
 
