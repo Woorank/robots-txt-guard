@@ -97,5 +97,28 @@ describe('guard', function () {
     assert.ok(robotsTxt.isAllowed('agent', '/path'), '2');
 
   });
+
+  it('should detect disallow all', function () {
+
+    // both groups should behave the same, regardless of the order of the rules
+    var robotsTxt = guard({
+      groups: [{
+        agents: [ '*' ],
+        rules: [
+          { rule: 'disallow', path: '/' }
+        ]
+      }, {
+        agents: [ 'googlebot' ],
+        rules: [
+          { rule: 'disallow', path: '/' },
+          { rule: 'allow', path: '/fish' }
+        ]
+      }]
+    });
+
+    assert.isTrue(robotsTxt.isDissalowAll('somebot'));
+    assert.isFalse(robotsTxt.isDissalowAll('googlebot'));
+
+  });
   
 });
