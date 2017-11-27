@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Validate urls against robots.txt rules.",
   "main": "lib/guard.js",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Woorank/robots-txt-guard"
+  },
   "scripts": {
     "test": "mocha -R spec ./test",
     "test-watch": "mocha -w -R spec ./test"
