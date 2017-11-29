@@ -9,8 +9,6 @@ var guard = require('../lib/guard'),
 
 describe('guard', function () {
 
-
-  
   it('should pick most specific rule', function () {
 
     // both groups should behave the same, regardless of the order of the rules
@@ -40,7 +38,6 @@ describe('guard', function () {
 
   });
 
-  
   it('should pick most specific agent', function () {
 
     // both groups should behave the same, regardless of the order of the rules
@@ -120,5 +117,29 @@ describe('guard', function () {
     assert.isFalse(robotsTxt.isDissalowAll('googlebot'));
 
   });
-  
+
+  it('should correctly detect if path is allowed with noindex', function () {
+
+    var robotsTxt = guard(
+      {
+        groups: [
+          {
+            agents: [ '*' ],
+            rules: [
+              { rule: 'allow', path: '/path1' },
+              { rule: 'disallow', path: '/*/path2/' },
+              { rule: 'noindex', path: '/*/path2/' },
+              { rule: 'noindex', path: '/*/path3/' }
+            ]
+          }
+        ]
+      }
+    );
+
+    assert.ok(robotsTxt.isAllowed('agent', '/'), '1');
+    assert.ok(robotsTxt.isAllowed('agent', '/path1'), '2');
+    assert.notOk(robotsTxt.isAllowed('agent', '/*/path2/'), '3');
+    assert.ok(robotsTxt.isAllowed('agent', '/*/path3/'), '4');
+  });
+
 });
