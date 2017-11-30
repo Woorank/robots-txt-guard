@@ -142,4 +142,45 @@ describe('guard', function () {
     assert.ok(robotsTxt.isAllowed('agent', '/*/path3/'), '4');
   });
 
+  it('should detect if path is indexable', function () {
+
+    var robotsTxt = guard(
+      {
+        groups: [
+          {
+            agents: [ '*' ],
+            rules: [
+              { rule: 'allow', path: '/path1' },
+              { rule: 'noindex', path: '/path1' },
+              { rule: 'disallow', path: '/*/path2/' },
+              { rule: 'noindex', path: '/*/path2/' },
+              { rule: 'noindex', path: '/*/path3/' },
+              { rule: 'allow', path: '/path4/' },
+              { rule: 'disallow', path: '/path5/' }
+            ]
+          },
+          {
+            agents: [ 'googlebot' ],
+            rules: [
+              { rule: 'disallow', path: '/path1' },
+              { rule: 'allow', path: '/path2' },
+              { rule: 'noindex', path: '/path3' }
+            ]
+          }
+        ]
+      }
+    );
+
+    assert.ok(robotsTxt.isIndexable('*', '/'), '1');
+    assert.notOk(robotsTxt.isIndexable('*', '/path1'), '2');
+    assert.notOk(robotsTxt.isIndexable('*', '/*/path2/'), '3');
+    assert.notOk(robotsTxt.isIndexable('*', '/*/path3/'), '4');
+    assert.ok(robotsTxt.isIndexable('*', '/path4/'), '5');
+    assert.ok(robotsTxt.isIndexable('*', '/path5/'), '6');
+
+    assert.ok(robotsTxt.isIndexable('googlebot', '/path1/'), '7');
+    assert.ok(robotsTxt.isIndexable('googlebot', '/path2/'), '8');
+    assert.notOk(robotsTxt.isIndexable('googlebot', '/path3/'), '9');
+  });
+
 });
