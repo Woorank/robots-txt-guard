@@ -38,6 +38,67 @@ describe('guard', function () {
 
   });
 
+  // https://stackoverflow.com/a/4589497/419436
+  it('allow should get priority', function () {
+
+    // both groups should behave the same, regardless of the order of the rules
+    var robotsTxt = guard({
+      groups: [{
+        agents: [ 'agent1' ],
+        rules: [
+          { rule: 'allow', path: '/fish' },
+          { rule: 'disallow', path: '/fish' }
+        ]
+      }, {
+        agents: [ 'agent2' ],
+        rules: [
+          { rule: 'disallow', path: '/fish' },
+          { rule: 'allow', path: '/fish' }
+        ]
+      }]
+    });
+
+    assert.ok(robotsTxt.isAllowed('agent1', '/hello'), '1');
+    assert.ok(robotsTxt.isAllowed('agent1', '/fish'), '2');
+
+    assert.ok(robotsTxt.isAllowed('agent2', '/hello'), '3');
+    assert.ok(robotsTxt.isAllowed('agent2', '/fish'), '4');
+
+    assert.ok(robotsTxt.isAllowed('default', '/hello'), '5');
+
+  });
+
+  it('noindex shouldn\'t interfere with allow', function () {
+
+    // both groups should behave the same, regardless of the order of the rules
+    var robotsTxt = guard({
+      groups: [{
+        agents: [ 'agent1' ],
+        rules: [
+          { rule: 'noindex', path: '/fish' },
+          { rule: 'disallow', path: '/fish' }
+        ]
+      }, {
+        agents: [ 'agent2' ],
+        rules: [
+          { rule: 'disallow', path: '/fish' },
+          { rule: 'noindex', path: '/fish' }
+        ]
+      }, {
+        agents: [ 'agent3' ],
+        rules: [
+          { rule: 'disallow', path: '/' },
+          { rule: 'noindex', path: '/fish' }
+        ]
+      }]
+    });
+
+    assert.notOk(robotsTxt.isAllowed('agent1', '/fish'), '1');
+    assert.notOk(robotsTxt.isAllowed('agent2', '/fish'), '2');
+    assert.notOk(robotsTxt.isAllowed('agent3', '/fish'), '3');
+
+  });
+
   it('should pick most specific agent', function () {
 
     // both groups should behave the same, regardless of the order of the rules
@@ -116,6 +177,20 @@ describe('guard', function () {
     assert.isTrue(robotsTxt.isDissalowAll('somebot'));
     assert.isFalse(robotsTxt.isDissalowAll('googlebot'));
 
+  });
+
+  it('should detect disallow all', function () {
+    var robotsTxt = guard({
+      groups: [{
+        agents: [ '*' ],
+        rules: [
+          { rule: 'disallow', path: '/' },
+          { rule: 'noindex', path: '/fish' }
+        ]
+      }]
+    });
+
+    assert.isTrue(robotsTxt.isDissalowAll('somebot'));
   });
 
   it('should correctly detect if path is allowed with noindex', function () {
