@@ -66,7 +66,7 @@ describe('guard', function () {
     assert.ok(robotsTxt.isAllowed('default', '/hello'), '5');
   });
 
-  it.only('should have the correct behaviour when no / is added at the end of the path', function () {
+  it('should have the correct behaviour when no / is added at the end of the path', function () {
 
     // both groups should behave the same, regardless of the order of the rules
     var robotsTxt = guard({
@@ -100,7 +100,7 @@ describe('guard', function () {
     assert.notOk(robotsTxt.isDisallowAll('agent2'), '11');
   });
 
-  it.only('should have the correct behaviour when / is added at the end of the path', function () {
+  it('should have the correct behaviour when / is added at the end of the path', function () {
 
     // both groups should behave the same, regardless of the order of the rules
     var robotsTxt = guard({
