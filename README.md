@@ -17,7 +17,8 @@ var robotsTxt = guard({
     agents: [ 'googlebot', 'twitterbot' ],
     rules: [
       { rule: 'disallow', path: '/tmp/*' },
-      { rule: 'disallow', path: '/temporary/*' }
+      { rule: 'disallow', path: '/temporary/*' },
+      { rule: 'noindex', path: '/temporary/*' }
     ]
   }]
 });
@@ -25,4 +26,7 @@ var robotsTxt = guard({
 robotsTxt.isAllowed('Googlebot', '/tmp/abc'); // false
 robotsTxt.isAllowed('mozilla', '/tmp/abc'); // true
 robotsTxt.isAllowed('googlebot-news', '/home.html'); // true
+
+robotsTxt.isIndexable('googlebot', '/tmp/*'); // true
+robotsTxt.isIndexable('googlebot', '/temporary/*'); // false
 ```
