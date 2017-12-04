@@ -40,7 +40,7 @@ describe('guard', function () {
   // https://stackoverflow.com/a/4589497/419436
   it('allow should get priority', function () {
 
-    // both groups should behave the same, regardless of the order of the rules
+    // all groups should behave the same, regardless of the order of the rules
     var robotsTxt = guard({
       groups: [{
         agents: [ 'agent1' ],
@@ -54,6 +54,12 @@ describe('guard', function () {
           { rule: 'disallow', path: '/fish' },
           { rule: 'allow', path: '/fish' }
         ]
+      }, {
+        agents: [ 'agent3' ],
+        rules: [
+          { rule: 'disallow', path: '/fish' },
+          { rule: 'ALLOW', path: '/fish' }
+        ]
       }]
     });
 
@@ -63,7 +69,10 @@ describe('guard', function () {
     assert.ok(robotsTxt.isAllowed('agent2', '/hello'), '3');
     assert.ok(robotsTxt.isAllowed('agent2', '/fish'), '4');
 
-    assert.ok(robotsTxt.isAllowed('default', '/hello'), '5');
+    assert.ok(robotsTxt.isAllowed('agent3', '/hello'), '5');
+    assert.ok(robotsTxt.isAllowed('agent3', '/fish'), '6');
+
+    assert.ok(robotsTxt.isAllowed('default', '/hello'), '7');
   });
 
   it('should have the correct behaviour when no / is added at the end of the path', function () {
