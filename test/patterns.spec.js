@@ -1,27 +1,25 @@
-/*global describe, it*/
+/* global describe, it */
 
 'use strict';
 
-var patterns = require('../lib/patterns'),
-    assert = require('chai').assert;
+const patterns = require('../lib/patterns');
+const assert = require('chai').assert;
 
 // cases from:
 // https://developers.google.com/webmasters/control-crawl-index/docs/robots_txt
 
 describe('patterns', function () {
-
-  function assertMatch(pattern, string) {
+  function assertMatch (pattern, string) {
     assert.ok(pattern.test(string), string);
   }
 
-  function assertNoMatch(pattern, string) {
+  function assertNoMatch (pattern, string) {
     assert.notOk(pattern.test(string), string);
   }
 
   describe('userAgent', function () {
-
     it('should match simple pattern', function () {
-      var pattern = patterns.userAgent('googlebot-news');
+      const pattern = patterns.userAgent('googlebot-news');
 
       assert.strictEqual(pattern.specificity, 14);
 
@@ -35,7 +33,7 @@ describe('patterns', function () {
     });
 
     it('should match wildcard', function () {
-      var pattern = patterns.userAgent('*');
+      const pattern = patterns.userAgent('*');
 
       assert.strictEqual(pattern.specificity, 0);
 
@@ -45,13 +43,11 @@ describe('patterns', function () {
       assertMatch(pattern, 'Googlebot');
       assertMatch(pattern, 'woobot');
     });
-
   });
 
   describe('path', function () {
-    
     it('should match simple pattern', function () {
-      var pattern = patterns.path('/fish');
+      const pattern = patterns.path('/fish');
 
       assert.strictEqual(pattern.specificity, 5);
 
@@ -66,9 +62,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/catfish');
       assertNoMatch(pattern, '/?id=fish');
     });
-    
+
     it('should match ending wildcard', function () {
-      var pattern = patterns.path('/fish*');
+      const pattern = patterns.path('/fish*');
 
       assert.strictEqual(pattern.specificity, 5);
 
@@ -84,9 +80,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/catfish');
       assertNoMatch(pattern, '/?id=fish');
     });
-    
+
     it('should match trailing slash', function () {
-      var pattern = patterns.path('/fish/');
+      const pattern = patterns.path('/fish/');
 
       assert.strictEqual(pattern.specificity, 6);
 
@@ -98,9 +94,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/fish.html');
       assertNoMatch(pattern, '/Fish/Salmon.asp');
     });
-    
+
     it('should handle missing start slash', function () {
-      var pattern = patterns.path('fish/');
+      const pattern = patterns.path('fish/');
 
       assert.strictEqual(pattern.specificity, 6);
 
@@ -113,9 +109,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/fish.html');
       assertNoMatch(pattern, '/Fish/Salmon.asp');
     });
-    
+
     it('should handle wildcards', function () {
-      var pattern = patterns.path('/*.php');
+      const pattern = patterns.path('/*.php');
 
       assert.strictEqual(pattern.specificity, 5);
 
@@ -129,9 +125,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/filenamephp');
       assertNoMatch(pattern, '/windows.PHP');
     });
-    
+
     it('should handle end directive', function () {
-      var pattern = patterns.path('/*.php$');
+      const pattern = patterns.path('/*.php$');
 
       assert.strictEqual(pattern.specificity, 5);
 
@@ -143,9 +139,9 @@ describe('patterns', function () {
       assertNoMatch(pattern, '/filename.php5');
       assertNoMatch(pattern, '/windows.PHP');
     });
-    
+
     it('should handle wildcards in the middle', function () {
-      var pattern = patterns.path('/fish*.php');
+      const pattern = patterns.path('/fish*.php');
 
       assert.strictEqual(pattern.specificity, 9);
 
@@ -154,7 +150,5 @@ describe('patterns', function () {
 
       assertNoMatch(pattern, '/Fish.PHP');
     });
-    
   });
-
 });

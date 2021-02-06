@@ -1,26 +1,22 @@
-/*global describe, it*/
+/* global describe, it */
 
 'use strict';
 
-var guard = require('../lib/guard'),
-    assert = require('chai').assert;
-
-
+const guard = require('../lib/guard');
+const assert = require('chai').assert;
 
 describe('guard', function () {
-
   it('should pick most specific rule', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'allow', path: '/' },
           { rule: 'disallow', path: '/fish' }
         ]
       }, {
-        agents: [ 'agent2' ],
+        agents: ['agent2'],
         rules: [
           { rule: 'disallow', path: '/fish' },
           { rule: 'allow', path: '/' }
@@ -39,23 +35,22 @@ describe('guard', function () {
 
   // https://stackoverflow.com/a/4589497/419436
   it('allow should get priority', function () {
-
     // all groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'allow', path: '/fish' },
           { rule: 'disallow', path: '/fish' }
         ]
       }, {
-        agents: [ 'agent2' ],
+        agents: ['agent2'],
         rules: [
           { rule: 'disallow', path: '/fish' },
           { rule: 'allow', path: '/fish' }
         ]
       }, {
-        agents: [ 'agent3' ],
+        agents: ['agent3'],
         rules: [
           { rule: 'disallow', path: '/fish' },
           { rule: 'ALLOW', path: '/fish' }
@@ -76,17 +71,16 @@ describe('guard', function () {
   });
 
   it('should have the correct behaviour when no / is added at the end of the path', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'allow', path: '/fish' },
           { rule: 'disallow', path: '/' }
         ]
       }, {
-        agents: [ 'agent2' ],
+        agents: ['agent2'],
         rules: [
           { rule: 'disallow', path: '/fish' }
         ]
@@ -110,17 +104,16 @@ describe('guard', function () {
   });
 
   it('should have the correct behaviour when / is added at the end of the path', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'allow', path: '/fish/' },
           { rule: 'disallow', path: '/' }
         ]
       }, {
-        agents: [ 'agent2' ],
+        agents: ['agent2'],
         rules: [
           { rule: 'disallow', path: '/fish/' }
         ]
@@ -145,23 +138,22 @@ describe('guard', function () {
   });
 
   it('noindex shouldn\'t interfere with allow', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'noindex', path: '/fish' },
           { rule: 'disallow', path: '/fish' }
         ]
       }, {
-        agents: [ 'agent2' ],
+        agents: ['agent2'],
         rules: [
           { rule: 'disallow', path: '/fish' },
           { rule: 'noindex', path: '/fish' }
         ]
       }, {
-        agents: [ 'agent3' ],
+        agents: ['agent3'],
         rules: [
           { rule: 'disallow', path: '/' },
           { rule: 'noindex', path: '/fish' }
@@ -175,21 +167,20 @@ describe('guard', function () {
   });
 
   it('should pick most specific agent', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ 'agent', 'agent2' ],
+        agents: ['agent', 'agent2'],
         rules: [
           { rule: 'disallow', path: '/disallow1' }
         ]
       }, {
-        agents: [ '*' ],
+        agents: ['*'],
         rules: [
           { rule: 'disallow', path: '/disallow2' }
         ]
       }, {
-        agents: [ 'agent1' ],
+        agents: ['agent1'],
         rules: [
           { rule: 'disallow', path: '/disallow3' }
         ]
@@ -214,11 +205,10 @@ describe('guard', function () {
   });
 
   it('should pick most specific agent', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ '*' ],
+        agents: ['*'],
         rules: [
           { rule: 'disallow', path: '' }
         ]
@@ -230,16 +220,15 @@ describe('guard', function () {
   });
 
   it('should detect disallow all', function () {
-
     // both groups should behave the same, regardless of the order of the rules
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ '*' ],
+        agents: ['*'],
         rules: [
           { rule: 'disallow', path: '/' }
         ]
       }, {
-        agents: [ 'googlebot' ],
+        agents: ['googlebot'],
         rules: [
           { rule: 'disallow', path: '/' },
           { rule: 'allow', path: '/fish' }
@@ -252,9 +241,9 @@ describe('guard', function () {
   });
 
   it('should detect disallow all', function () {
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ '*' ],
+        agents: ['*'],
         rules: [
           { rule: 'disallow', path: '/' },
           { rule: 'noindex', path: '/fish' }
@@ -266,9 +255,9 @@ describe('guard', function () {
   });
 
   it('should detect that not all paths are disallowed when only disallowing specific paths', function () {
-    var robotsTxt = guard({
+    const robotsTxt = guard({
       groups: [{
-        agents: [ '*' ],
+        agents: ['*'],
         rules: [
           { rule: 'disallow', path: '/fish' }
         ]
@@ -279,12 +268,11 @@ describe('guard', function () {
   });
 
   it('should correctly detect if path is allowed with noindex', function () {
-
-    var robotsTxt = guard(
+    const robotsTxt = guard(
       {
         groups: [
           {
-            agents: [ '*' ],
+            agents: ['*'],
             rules: [
               { rule: 'allow', path: '/path1' },
               { rule: 'disallow', path: '/*/path2/' },
@@ -303,12 +291,11 @@ describe('guard', function () {
   });
 
   it('should detect if path is indexable', function () {
-
-    var robotsTxt = guard(
+    const robotsTxt = guard(
       {
         groups: [
           {
-            agents: [ '*' ],
+            agents: ['*'],
             rules: [
               { rule: 'allow', path: '/path1' },
               { rule: 'noindex', path: '/path1' },
@@ -320,7 +307,7 @@ describe('guard', function () {
             ]
           },
           {
-            agents: [ 'googlebot' ],
+            agents: ['googlebot'],
             rules: [
               { rule: 'disallow', path: '/path1' },
               { rule: 'allow', path: '/path2' },
@@ -342,5 +329,4 @@ describe('guard', function () {
     assert.ok(robotsTxt.isIndexable('googlebot', '/path2/'), '8');
     assert.notOk(robotsTxt.isIndexable('googlebot', '/path3/'), '9');
   });
-
 });
