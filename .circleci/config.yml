@@ -2,10 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     steps:
       - checkout
-      - run: npm install --quiet
+      - run: npm ci
       - run: npm run test:ci
       - deploy:
           command: |
