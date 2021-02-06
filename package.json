@@ -15,8 +15,8 @@
   "author": "Jan Potoms",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^1.9.1",
-    "mocha": "^2.0.1"
+    "chai": "^2.3.0",
+    "mocha": "^8.2.1"
   },
   "dependencies": {}
 }
