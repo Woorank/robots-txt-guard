@@ -1,6 +1,6 @@
 {
   "name": "robots-txt-guard",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Validate urls against robots.txt rules.",
   "main": "lib/guard.js",
   "repository": {
