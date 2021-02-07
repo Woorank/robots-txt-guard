@@ -150,5 +150,10 @@ describe('patterns', function () {
 
       assertNoMatch(pattern, '/Fish.PHP');
     });
+
+    it('should handle a ReDos', function () {
+      const pattern = patterns.path('/*****************************************************************************.js$');
+      assertMatch(pattern, '/hello.js');
+    });
   });
 });
