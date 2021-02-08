@@ -14,13 +14,15 @@
     "version": "echo $npm_package_version",
     "typescript": "tsc",
     "lint": "semistandard",
-    "fix": "semistandard --fix"
+    "fix": "semistandard --fix",
+    "benchmark": "node benchmark"
   },
   "author": "Jan Potoms",
   "license": "MIT",
   "devDependencies": {
     "chai": "^2.3.0",
     "mocha": "^8.2.1",
+    "robots-txt-parse": "^1.0.1",
     "semistandard": "^16.0.0",
     "typescript": "^4.1.3"
   },
